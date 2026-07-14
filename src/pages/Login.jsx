@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signInWithPopup } from "firebase/auth"
+import { useNavigate } from "react-router-dom"
 import { auth, googleProvider } from "@/firebase/FirebaseConfig"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
@@ -11,13 +12,29 @@ function Login() {
     const [email, setEmail] = useState("");
     const[password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const navigate = useNavigate()
+    
 
     function handleSubmit(event){
+        event.preventDefault();
         setError("");
 
         if(email.trim() === ""){
             setError("Email required.")
+            return;
         }
+        if(password.trim() === ""){
+            setPassword("Password is required.")
+        }
+
+        if(
+            email === "hospital@lifelink.com" &&
+            password=== "admin123"
+        ){
+            navigate("/hospitaldashboard")
+            return;
+        }
+        setError("Invalid email or password.")
     }
 
     async function handleGoogleLogin () {
@@ -49,7 +66,9 @@ function Login() {
                         {error}
                     </p>
                 )}
-               
+
+                <form onSubmit={handleSubmit}>
+                   
                      {/* Email */}
              <div>
                   <Label htmlFor="email"> Email</Label>
@@ -64,7 +83,7 @@ function Login() {
 
           {/* Password */}
             <div>
-             <Label htmlFor="password"> Password</Label>
+             <Label htmlFor="password" className="mt-2"> Password</Label>
              <Input
              className="mt-2"
               id="password"
@@ -94,6 +113,8 @@ function Login() {
              </div>
 
              <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>Continue with Goolge</Button>
+                </form>
+               
             </CardContent>
       
       </Card>
