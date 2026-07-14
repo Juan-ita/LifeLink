@@ -5,7 +5,7 @@ LifeLink is a web application that connects hospitals with voluntary blood donor
 The platform allows hospitals to post emergency requests, while donors can view active requests and book screening appointments before donating blood.
 
 ## Problem Statement
-Hospitals often face delays in finding eligible blood donord during emergencies. 
+Hospitals often face delays in finding eligible blood donors during emergencies. 
 The traditional process can be process can be slow, making it difficult to respond quickly when blood is urgently needed.
 
 ## Solution
@@ -19,6 +19,15 @@ LifeLink provides a centralized platform where hospitals can create emergency bl
 - Allow donors to book screening appointments.
 - Provide real-time updates using Firebase.
 - Improve coordination between hospitals and blood donors.
+
+## Features
+- Register page
+- Login page
+- Donor Dashboard
+- Book a Screening Appointment
+- Hospital Dashboard
+- Emergency Request
+- Donors Respond
 
 ## Technologies
 
