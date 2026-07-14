@@ -31,7 +31,7 @@ function Login() {
             email === "hospital@lifelink.com" &&
             password=== "admin123"
         ){
-            navigate("/hospitaldashboard")
+            navigate("/hospital/dashboard")
             return;
         }
         setError("Invalid email or password.")
