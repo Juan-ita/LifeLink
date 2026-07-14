@@ -3,6 +3,8 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { signInWithPopup } from "firebase/auth"
+import { auth, googleProvider } from "@/firebase/FirebaseConfig"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
 function Login() {
@@ -15,6 +17,16 @@ function Login() {
 
         if(email.trim() === ""){
             setError("Email required.")
+        }
+    }
+
+    async function handleGoogleLogin () {
+        try{
+            const result = await signInWithPopup(auth, googleProvider)
+            console.log(result.user)
+        }catch(error){
+            console.log(error)
+            setError(error.message)
         }
     }
   return (
@@ -73,6 +85,15 @@ function Login() {
                     </Link>
                 </p>
              </div>
+
+             <div className="my-4 flex items-center">
+                <hr className="flex-1"/>
+
+                <span className="mx-2 text-sm text-gray-500">OR</span>
+                <hr className="flex-1"/>
+             </div>
+
+             <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>Continue with Goolge</Button>
             </CardContent>
       
       </Card>
