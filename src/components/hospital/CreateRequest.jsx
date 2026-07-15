@@ -7,7 +7,9 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import HospitalLayout from './HospitalLayout';
+import Sidebar from './Sidebar';
 
 function CreateRequest() {
     const[county, setCounty] = useState("")
@@ -84,9 +86,10 @@ if(deadline.trim() ===""){
 
 
   return (
-    <main className='p-8'>
+    
+    <HospitalLayout className='p-8 '>  
       <Card className="mx-auto max-w-2xl">
-        <CardHeader>
+         <CardHeader>
             <CardTitle>
                 Create Blood Request
             </CardTitle>
@@ -98,6 +101,7 @@ if(deadline.trim() ===""){
                     <Label>Patient</Label>
 
                     <Input 
+                    className="p-6 mt-2"
                     value={patientName}
                     onChange={(event) => setPatientName(event.target.value)}
                     placeholder="Enter patient name"
@@ -108,6 +112,7 @@ if(deadline.trim() ===""){
                     <Label>Blood Group</Label>
 
                     <Input 
+                    className="p-6 mt-2"
                     value={bloodGroup}
                     onChange={(event) => setBloodGroup(event.target.value)}
                     placeholder="Example: A+"
@@ -155,8 +160,9 @@ if(deadline.trim() ===""){
                 </Button>
             </form>
         </CardContent>
-      </Card>
-    </main>
+      </Card>         
+      
+    </HospitalLayout>
   )
 }
 

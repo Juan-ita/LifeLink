@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -10,9 +10,11 @@ import RequestDetails from './components/hospital/RequestDetails'
 import EditRequest from './pages/EditRequest'
 
 function App() {
+  const location = useLocation()
+  const isHospitalPage = location.pathname.startsWith("/hospital/dashboard")
   return (
     <>
-        <Navbar/>
+    {!isHospitalPage && <Navbar/>}
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Register/>}/>

@@ -98,7 +98,7 @@ function RecentRequests() {
                     </td>
 
                     <td>
-                        <div className='flex gap-2'>
+                        <div className='flex gap-20'>
                          <Button 
                          onClick={() => navigate(`/hospital/request/${request.id}`)}
                          variant='outline' 

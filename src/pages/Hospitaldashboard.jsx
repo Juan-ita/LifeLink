@@ -6,6 +6,7 @@ import RecentRequests from '@/components/hospital/RecentRequests'
 
 function Hospitaldashboard() {
   return (
+    
     <div className='flex min-h-screen bg-gray-100'>
         <Sidebar/>
       <main className='flex-1 p-8'>
