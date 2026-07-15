@@ -8,6 +8,7 @@ import Hospitaldashboard from './pages/Hospitaldashboard'
 import CreateRequest from './components/hospital/CreateRequest'
 import RequestDetails from './components/hospital/RequestDetails'
 import EditRequest from './pages/EditRequest'
+import BloodInventory from './pages/BloodInventory'
 
 function App() {
   const location = useLocation()
@@ -23,6 +24,7 @@ function App() {
           <Route path='/hospital/create-request' element={<CreateRequest/>}/>
           <Route path='/hospital/request/:id' element={<RequestDetails/>}/>
           <Route path='/hospital/request/edit/:id' element={<EditRequest/>}/>
+          <Route path='/hospital/inventory' element={<BloodInventory/>}/>
         </Routes>
     
     </>
