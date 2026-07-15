@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Hospitaldashboard from './pages/Hospitaldashboard'
 import CreateRequest from './components/hospital/CreateRequest'
+import RequestDetails from './components/hospital/RequestDetails'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/hospital/dashboard' element={<Hospitaldashboard/>}/>
           <Route path='/hospital/create-request' element={<CreateRequest/>}/>
+          <Route path='/hospital/request/:id' element={<RequestDetails/>}/>
         </Routes>
     
     </>

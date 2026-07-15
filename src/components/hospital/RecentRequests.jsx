@@ -2,10 +2,12 @@ import { Button } from '../ui/button'
 import { useEffect, useState } from 'react'
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '@/firebase/FirebaseConfig'
+import { useNavigate } from 'react-router-dom'
 import { tr } from 'date-fns/locale';
 
 function RecentRequests() {
     const [requests, setRequests] = useState([]);
+    const navigate= useNavigate();
 
     useEffect(()=>{
         async function fetchRequests(){
@@ -98,6 +100,7 @@ function RecentRequests() {
                     <td>
                         <div className='flex gap-2'>
                          <Button 
+                         onClick={() => navigate(`/hospital/request/${request.id}`)}
                          variant='outline' 
                          size='sm' 
                          className="cursor-pointer">
