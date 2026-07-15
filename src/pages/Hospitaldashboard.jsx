@@ -2,7 +2,7 @@ import DashboardCard from '@/components/hospital/DashboardCard'
 import Sidebar from '@/components/hospital/Sidebar'
 import { Calendar, Droplets, ClipboardList, Users } from 'lucide-react'
 import QuickActions from '@/components/hospital/QuickActions'
-
+import RecentRequests from '@/components/hospital/RecentRequests'
 
 function Hospitaldashboard() {
   return (
@@ -39,6 +39,7 @@ function Hospitaldashboard() {
         </div>
 
         <QuickActions/>
+        <RecentRequests/>
       </main>
     </div>
   )
