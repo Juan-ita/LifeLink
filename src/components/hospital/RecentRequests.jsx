@@ -115,6 +115,14 @@ function RecentRequests() {
                         >
                             Delete
                         </Button>
+
+                        <Button
+                        variant='secondary'
+                        size='sm'
+                        onClick={() => navigate(`/hospital/request/edit/${request.id}`)}
+                        >
+                            Edit
+                        </Button>
                         </div>
                         
                     </td>
