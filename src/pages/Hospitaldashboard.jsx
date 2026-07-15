@@ -1,6 +1,7 @@
 import DashboardCard from '@/components/hospital/DashboardCard'
 import Sidebar from '@/components/hospital/Sidebar'
 import { Calendar, Droplets, ClipboardList, Users } from 'lucide-react'
+import QuickActions from '@/components/hospital/QuickActions'
 
 
 function Hospitaldashboard() {
@@ -36,6 +37,8 @@ function Hospitaldashboard() {
           icon={<Calendar size={28}/>}
           />
         </div>
+
+        <QuickActions/>
       </main>
     </div>
   )
