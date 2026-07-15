@@ -1,26 +1,46 @@
 import { Button } from '../ui/button'
+import { useEffect, useState } from 'react'
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { db } from '@/firebase/FirebaseConfig'
+import { tr } from 'date-fns/locale';
 
 function RecentRequests() {
-    const requests=[
-        {
-            id:1,
-            patient: "Hannah Banks",
-            bloodGroup: "O+",
-            status: "Urgent"
-        },
-        {
-            id: 2,
-            patient: "John Kim",
-            bloodGroup: "A+",
-            status: "Pending"
-        },
-        {
-            id: 3,
-            patient: "Mary Anne",
-            bloodGroup: "B-",
-            status: "Approved"
-        },
-    ]
+    const [requests, setRequests] = useState([]);
+
+    useEffect(()=>{
+        async function fetchRequests(){
+            const querySnapshot = await getDocs( //getDocs reads every document in the bloodRequests collection
+                collection(db, "bloodRequests")
+            );
+
+            const data = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()//doc.data gets the data inside each document
+            }));
+            setRequests(data); //stores the results in state
+        }
+        fetchRequests()
+    }, [])
+
+    async function handleDelete(id){
+        if (!window.confirm("Are you sure u want to delete this request?")){
+            return
+        }
+        try{
+            //Delete the document from firebase
+            await deleteDoc(doc(db, "bloodRequests", id)) //doc(------) points the specific document inside the bloodRequests collection.
+
+            //Remove the deleted request from the table
+            setRequests(
+                requests.filter((request) => request.id !== id) //updates the table immediately without refreshing the page
+            )
+            alert("Blood request deleted successfully!")
+        }catch(error){
+            console.error(error)
+            alert("Failed to delete rwquest.")
+        }
+    }
+   
   return (
     <div className='mt-10 rounded-xl bg-white p-6 shadow-md'>
       <h2 className='mb-6 text-2xl font-semibold'>
@@ -48,13 +68,21 @@ function RecentRequests() {
         </thead>
 
         <tbody>
-            {requests.map((request) => (
+            {requests.length === 0? (
+                <tr>
+                    <td colSpan="4"
+                    className='py-6 text-center text-gray-500'>
+                        no blood requests found.
+                    </td>
+                </tr>
+            ):(
+             requests.map((request) => (
                 <tr 
                 key={request.id}
                 className='border-b'>
 
                     <td className='py-4'>
-                        {request.patient}
+                        {request.patientName}
                     </td>
 
                     <td>
@@ -68,12 +96,29 @@ function RecentRequests() {
                     </td>
 
                     <td>
-                        <Button variant='outline' size='sm' className="cursor-pointer">
+                        <div className='flex gap-2'>
+                         <Button 
+                         variant='outline' 
+                         size='sm' 
+                         className="cursor-pointer">
                             view
+                        </Button>   
+
+                        <Button 
+                        variant='destructive'
+                        size='sm'
+                        className="cursor-pointer bg-red-500 text-white shadow-md hover:bg-red-600"
+                        onClick={() => handleDelete(request.id)}
+                        >
+                            Delete
                         </Button>
+                        </div>
+                        
                     </td>
                 </tr>
-            ))}
+            ))
+            )
+            }
         </tbody>
       </table>
     </div>

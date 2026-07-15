@@ -1,7 +1,12 @@
+// Firebase functions
+import { collection, addDoc } from 'firebase/firestore';
+// firebade data
+import { db } from '@/firebase/FirebaseConfig';
 import { useState } from 'react'
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 function CreateRequest() {
@@ -12,17 +17,72 @@ function CreateRequest() {
     const[units, setUnits] = useState("")
     const[urgency, setUrgency] = useState("")
 
-    function handleSubmit(event){
+    const navigate = useNavigate()
+
+    async function handleSubmit(event){
     event.preventDefault();
-    console.log({
+    try{
+        await addDoc(collection(db, "bloodRequests"), {
         patientName,
         bloodGroup,
         units,
         urgency,
         county,
         deadline,
-    })
+        status: "Pending",
+
+        //Save the date the request was created
+        createdAt: new Date(),
+        });
+
+        // Error messages
+if(patientName.trim()===""){
+    alert("Patient name is required.")
+    return;
 }
+if(bloodGroup.trim() === ""){
+    alert("Blood group is required.")
+    return
+}
+if(units.trim() ===""){
+    alert("Units needed is required.")
+    return
+}
+if(urgency.trim() ===""){
+    alert("urgency is required.")
+    return
+}
+if(county.trim() ===""){
+    alert("County is required.")
+    return
+}
+if(deadline.trim() ===""){
+    alert("Dealine is required.")
+    return
+}
+
+        //Let the user know it works
+        alert("Blood request created successfully!")
+
+        //Clear form
+        setPatientName("")
+        setBloodGroup("")
+        setUnits("")
+        setUrgency("")
+        setCounty("")
+        setDedline("")
+
+        navigate("/hospital/dashboard")
+
+    }catch(error){
+        console.error(error)
+        alert("Something went wrong.")
+        return;
+    }
+}
+
+
+
   return (
     <main className='p-8'>
       <Card className="mx-auto max-w-2xl">
@@ -39,7 +99,7 @@ function CreateRequest() {
 
                     <Input 
                     value={patientName}
-                    onCange={(event) => setPatientName(event.target.value)}
+                    onChange={(event) => setPatientName(event.target.value)}
                     placeholder="Enter patient name"
                     />
                 </div>
@@ -49,7 +109,7 @@ function CreateRequest() {
 
                     <Input 
                     value={bloodGroup}
-                    onCange={(event) => setBloodGroup(event.target.value)}
+                    onChange={(event) => setBloodGroup(event.target.value)}
                     placeholder="Example: A+"
                     />
                 </div>
@@ -58,7 +118,7 @@ function CreateRequest() {
 
                     <Input 
                     value={units}
-                    onCange={(event) => setUnits(event.target.value)}
+                    onChange={(event) => setUnits(event.target.value)}
                     placeholder="2"
                     />
                 </div>
@@ -67,7 +127,7 @@ function CreateRequest() {
 
                     <Input 
                     value={urgency}
-                    onCange={(event) => setUrgency(event.target.value)}
+                    onChange={(event) => setUrgency(event.target.value)}
                     placeholder="Urgent"
                     />
                 </div>
@@ -76,7 +136,7 @@ function CreateRequest() {
 
                     <Input 
                     value={county}
-                    onCange={(event) => setCounty(event.target.value)}
+                    onChange={(event) => setCounty(event.target.value)}
                     placeholder="Nairobi"
                     />
                 </div>
@@ -84,8 +144,9 @@ function CreateRequest() {
                     <Label>Deadline</Label>
 
                     <Input 
+                    type="date"
                     value={deadline}
-                    onCange={(event) => setDedline(event.target.value)}
+                    onChange={(event) => setDedline(event.target.value)}
                     />
                 </div>
 
