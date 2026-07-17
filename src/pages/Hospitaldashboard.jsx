@@ -23,7 +23,7 @@ function Hospitaldashboard() {
       try{
         //get all blood requests
         const requestsSnapshot = await getDocs(
-          collection(db, "bloodRequests")
+          collection(db, "appointments")
         );
         //Get all blood inventory
         const inventorySnapshot = await getDocs(

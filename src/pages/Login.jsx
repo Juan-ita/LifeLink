@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signInWithPopup } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
-import { auth, googleProvider } from "@/firebase/FirebaseConfig"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth, googleProvider, db } from "@/firebase/FirebaseConfig"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { doc, getDoc } from "firebase/firestore"
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -15,7 +17,7 @@ function Login() {
     const navigate = useNavigate()
     
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault();
         setError("");
 
@@ -24,17 +26,53 @@ function Login() {
             return;
         }
         if(password.trim() === ""){
-            setPassword("Password is required.")
+            setError("Password is required.")
+            return;
         }
-
         if(
             email === "hospital@lifelink.com" &&
-            password=== "admin123"
+            password === "admin123"
         ){
             navigate("/hospital/dashboard")
             return;
         }
-        setError("Invalid email or password.")
+
+        try{
+            //log the user into firebase authentication
+            const userCredential = await signInWithEmailAndPassword(
+                auth, email, password
+            )
+
+            //Get the logged-in user
+            const user = userCredential.user;
+
+            //Read the user's information from firebase
+            const userRef = doc(db, "users", user.uid)
+
+            const userSnap = await getDoc(userRef);
+
+            //check if the user's information from firestore
+            if (!userSnap.exists()){
+                setError("User profile not found")
+                return;
+            }
+
+            //get user's information
+            const userData = userSnap.data();
+
+            //if the user is a hospital
+            if(userData.role === "hospital"){
+
+                //Open the hospitaldashboard
+                navigate("/hospital/dashboard")
+
+            }else{
+                navigate("/donor/dashboard");
+            }
+        }catch(error) {
+            console.error(error)
+            setError("Invalid email or password.")
+        }
     }
 
     async function handleGoogleLogin () {
@@ -92,11 +130,9 @@ function Login() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}/>
           </div>
-             <Link to="/donor/dashboard">
              <Button type="submit" className="w-full mt-3">
                 Login
              </Button>
-             </Link>
              
 
              <div className="mt-4 text-center">

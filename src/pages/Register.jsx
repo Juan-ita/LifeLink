@@ -3,6 +3,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { auth, db } from '@/firebase/FirebaseConfig'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 function Register() {
@@ -11,9 +15,16 @@ function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [bloodGroup, setBloodGroup] = useState("")
+    const [county, setCounty] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
+    const [birth, setBirth] = useState("")
+    const [weight, setWeight] = useState("")
+    const [gender, setGender] = useState("")
     const [error, setError] = useState("")
+    const navigate = useNavigate()
     
-    function handleSubmit(event){
+    async function handleSubmit(event){
       event.preventDefault();
       setError("");
 
@@ -25,6 +36,30 @@ function Register() {
         setError("Email is required.")
         return;
       }
+      if(bloodGroup.trim() === ""){
+        setError("Blood Group is Requires.")
+        return;
+      }
+      if(county.trim() === ""){
+        setError("County is required.")
+        return;
+      }
+      if(phoneNumber.trim() === ""){
+        setError("Phone number is required.")
+        return;
+      }
+      if(birth.trim() === ""){
+        setError("Birth date is required.")
+        return;
+      }
+      if(weight.trim() === ""){
+        setError("Weight is required.")
+        return;
+      }
+      if(gender.trim() === ""){
+        setError("Gender is required.")
+        return;
+      }
       if(password.length < 8){
         setError("Password must be atleast 8 characters.")
         return;
@@ -33,12 +68,46 @@ function Register() {
         setError("Passwords do not match.")
         return;
       }
-      //display the user's information in the console
-      console.log("Registration seccessfull!")
-      console.log("Full Name", fullName)
-      console.log("Email", email)
-      console.log("Password", password)
-      console.log("Confirm Password", confirmPassword)
+
+      try{
+        //create firebase account
+        const userCredential = await createUserWithEmailAndPassword(
+          auth, email, password
+        );
+
+        const user = userCredential.user;
+
+        //save donor information in firestore
+        const userData = {
+           fullName,
+          email,
+          bloodGroup,
+          county,
+          phoneNumber,
+          birth,
+          weight,
+          gender,
+          role: "donor",
+          uid: user.uid,
+          createdAt: new Date(),  
+        }
+
+         await setDoc(doc(db, "users", user.uid), userData)
+         localStorage.setItem(
+          "user",
+          JSON.stringify(userData)
+         );
+
+
+        alert("Registration successfull!")
+
+        navigate("/login")
+
+      }catch (error) {
+        console.error(error);
+        setError(error.message)
+      }
+     
     }
   return (
     <main className='flex min-h-screen items-center justify-center bg-red-50 p-6'>
@@ -103,16 +172,78 @@ function Register() {
             className="mt-2"
              id="confirmPassword"
              type="password"
-             placeholder="*****"
              value={confirmPassword}
              onChange={(event) => setConfirmPassword(event.target.value)}/>
           </div>
 
-         <Link to="/login">
-         <Button type="submit" className="w-full" asChild>
+            <div>
+            <Label htmlFor="bloodGroup"> Blood Group </Label>
+            <Input
+            className="mt-2"
+             id="bloodGroup"
+             placeholder="Example: O+"
+             value={bloodGroup}
+             onChange={(event) => setBloodGroup(event.target.value)}/>
+          </div>
+
+            <div>
+            <Label htmlFor="county">County</Label>
+            <Input
+            className="mt-2"
+             id="county"
+             placeholder="Nairobi"
+             value={county}
+             onChange={(event) => setCounty(event.target.value)}/>
+          </div>
+
+            <div>
+            <Label htmlFor="phoneNumber">Phone Number</Label>
+            <Input
+            className="mt-2"
+             id="phoneNumber"
+             type="tel"
+             placeholder="07********"
+             value={phoneNumber}
+             onChange={(event) => setPhoneNumber(event.target.value)}/>
+          </div>
+
+            <div>
+            <Label htmlFor="birth">Date of Birth</Label>
+            <Input
+            className="mt-2"
+             id="birth"
+             type="date"
+             value={birth}
+             onChange={(event) => setBirth(event.target.value)}/>
+          </div>
+
+            <div>
+            <Label htmlFor="weight">Weight</Label>
+            <Input
+            className="mt-2"
+             id="weight"
+             type="number"
+             placeholder="kg"
+             value={weight}
+             onChange={(event) => setWeight(event.target.value)}/>
+          </div>
+            <div>
+            <Label htmlFor="gender">Gender</Label>
+            <select 
+             className="mt-2 w-full rounded-md border p-2"
+             id="gender"
+             value={gender}
+             onChange={(event) => setGender(event.target.value)}
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+         <Button type="submit" className="w-full" >
             Register            
             </Button>
-         </Link>
           
 
           <div className='mt-4 text-center'> 

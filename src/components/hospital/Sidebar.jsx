@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayoutDashboard, Droplets, ClipboardList, User, Users, LogOut } from 'lucide-react'
+import { LayoutDashboard, Droplets, ClipboardList, User, Users, LogOut, Calendar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 function Sidebar() {
@@ -18,6 +18,12 @@ function Sidebar() {
         <Link to="/hospital/inventory" className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>
         <Droplets size={20}/>
         Blood Inventory
+        </Link>
+
+        <Link to="/hospital/appointments"
+        className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>
+          <Calendar size={20}/>
+        Appointments
         </Link>
 
         <Link to="/hospital/requests" className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>

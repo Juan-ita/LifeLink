@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { auth } from '@/firebase/FirebaseConfig'
+import { doc, getDoc } from 'firebase/firestore'
 
 function BookAppointment() {
     //gets the request ID from the URL
@@ -17,6 +19,8 @@ function BookAppointment() {
     const [date, setDate] = useState("")
     //store the appointment time
     const [time, setTime] = useState("")
+    
+    const donor = JSON.parse(localStorage.getItem("user"))
 
     async function handleSubmit(event){
         event.preventDefault();
@@ -31,10 +35,34 @@ function BookAppointment() {
             return;
         }
         try{
+            
+        const requestRef = doc(db, "bloodRequests", id);
+        const requestSnap = await getDoc(requestRef);
+
+        if (!requestSnap.exists()){
+            alert("Blood request not found.")
+            return;
+        }
+        //store blood data
+        const request = requestSnap.data()
+
+        console.log(donor);
+        console.log(request)
             //Save the appointment in firebase
             await addDoc(collection(db, "appointments"), {
-                //The blood request this appointment belongs to
+                //blood request
                 requestId: id,
+                patientName: request.patientName,
+                bloodGroup: request.bloodGroup,
+                county: request.county,
+
+                //donor details
+               donorId: auth.currentUser.uid,
+               donorName: donor.fullName,
+               donorEmail: auth.currentUser.email,
+               donorBloodGroup: donor.bloodGroup,
+               donorCounty: donor.county,
+               donorPhone: donor.phoneNumber,
 
                 //Appointment details
                 appointmentDate : date,
@@ -53,6 +81,7 @@ function BookAppointment() {
             console.error(error);
             alert("Failed to book appointment.")
         }
+
     }
   return (
     <DonorLayout>
