@@ -11,6 +11,7 @@ import EditRequest from './pages/EditRequest'
 import BloodInventory from './pages/BloodInventory'
 import DonorDashboard from './pages/DonorDashboard'
 import AvailableRequests from './pages/AvailableRequests'
+import BookAppointment from './pages/BookAppointment'
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
           <Route path='/hospital/inventory' element={<BloodInventory/>}/>
           <Route path='/donor/dashboard' element={<DonorDashboard/>}/>
           <Route path='/donor/requests' element={<AvailableRequests/>}/>
-          {/* <Route path='/donor/apointments' element={<Appoi/>}/> */}
+          <Route path='/donor/book/:id' element={<BookAppointment/>}/>
         </Routes>
     
     </>
