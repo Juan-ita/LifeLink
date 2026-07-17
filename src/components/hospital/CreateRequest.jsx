@@ -31,7 +31,7 @@ function CreateRequest() {
         urgency,
         county,
         deadline,
-        status: "Pending",
+        status: urgency,
 
         //Save the date the request was created
         createdAt: new Date(),
