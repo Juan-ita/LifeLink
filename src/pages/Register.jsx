@@ -108,9 +108,12 @@ function Register() {
              onChange={(event) => setConfirmPassword(event.target.value)}/>
           </div>
 
-          <Button type="submit" className="w-full" asChild>
+         <Link to="/login">
+         <Button type="submit" className="w-full" asChild>
             Register            
             </Button>
+         </Link>
+          
 
           <div className='mt-4 text-center'> 
             <p className='text-sm text-gray-600'>

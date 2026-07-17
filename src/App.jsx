@@ -9,6 +9,7 @@ import CreateRequest from './components/hospital/CreateRequest'
 import RequestDetails from './components/hospital/RequestDetails'
 import EditRequest from './pages/EditRequest'
 import BloodInventory from './pages/BloodInventory'
+import DonorDashboard from './pages/DonorDashboard'
 
 function App() {
   const location = useLocation()
@@ -25,6 +26,7 @@ function App() {
           <Route path='/hospital/request/:id' element={<RequestDetails/>}/>
           <Route path='/hospital/request/edit/:id' element={<EditRequest/>}/>
           <Route path='/hospital/inventory' element={<BloodInventory/>}/>
+          <Route path='/donor/dashboard' element={<DonorDashboard/>}/>
         </Routes>
     
     </>

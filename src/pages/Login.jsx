@@ -92,10 +92,12 @@ function Login() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}/>
           </div>
-             
+             <Link to="/donor/dashboard">
              <Button type="submit" className="w-full mt-3">
                 Login
              </Button>
+             </Link>
+             
 
              <div className="mt-4 text-center">
                 <p>Don't have an account?
