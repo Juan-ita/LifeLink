@@ -15,6 +15,7 @@ import BookAppointment from './pages/BookAppointment'
 import HospitalAppointments from './pages/HospitalAppointments'
 import MyAppointments from './components/donor/MyAppointments'
 import HospitalRegister from './pages/HospitalRegister'
+import HospitalProfile from './components/hospital/HospitalProfile'
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path='/hospital/appointments' element={<HospitalAppointments/>}/>
           <Route path='/donor/appointments' element={<MyAppointments/>}/>
           <Route path='/hospitalregistration' element={<HospitalRegister/>}/>
+          <Route path='/hospital/profile' element={<HospitalProfile/>}/>
         </Routes>
     
     </>
