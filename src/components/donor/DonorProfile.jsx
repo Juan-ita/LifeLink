@@ -24,6 +24,7 @@ function DonorProfile() {
             if(docSnap.exists()){
                 setDonor(docSnap.data())
             }
+
         }
         fetchDonor()
     }, [])
@@ -40,7 +41,7 @@ function DonorProfile() {
     <DonorLayout>
       <Card className="max-w-3xl">
         <CardHeader>
-            <CardTitle>
+            <CardTitle className="font-bold text-xl">
                 {donor.fullName}
             </CardTitle>
         </CardHeader>
@@ -75,6 +76,9 @@ function DonorProfile() {
             </div>
 
         </CardContent>
+
+        <div className='p-8'>
+        </div>
       </Card>
     </DonorLayout>
   )
