@@ -36,7 +36,7 @@ function AvailableRequests() {
   return (
     <DonorLayout>
       <h1 className='text-3xl font-bold'>
-        Available Blod Requests
+        Available Blood Requests
       </h1>
 
       {/* Table */}
@@ -47,7 +47,7 @@ function AvailableRequests() {
                     patient
                 </th>
                 <th className='p-4 text-left'>
-                    Bood Grou
+                    Blood Group
                 </th>
                 <th className='p-4 text-left'>
                     County

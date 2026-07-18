@@ -1,8 +1,58 @@
 import DonorLayout from '@/components/donor/DonorLayout'
-import { Heart, Calendar, Droplets, Bell } from 'lucide-react'
+import { Heart, Clipboard, CheckCircle, Clock, Calendar } from 'lucide-react'
 import DonorCards from '@/components/donor/DonorCards'
+import { db, auth } from '@/firebase/FirebaseConfig'
+import { getDocs, collection } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
 
 function DonorDashboard() {
+  const [stats, setStats] = useState({
+    requests: 0,
+    appointments: 0,
+    approved: 0,
+    pending: 0,
+
+  })
+
+  useEffect(()=>{
+    async function fetchStats(){
+      try {
+        //Get all blood requests
+        const requestSnapshot = await getDocs(
+          collection(db, "bloodRequests")
+        );
+
+        //Get all appointments
+        const appointmentsSnapshots = await getDocs(
+          collection(db, "appointments")
+        );
+
+        //Get only this donor's appointment
+        const myAppointments = appointmentsSnapshots.docs.filter((doc)=>
+        doc.data().donorId === auth.currentUser.uid)
+
+        //Count approved appointments
+        const approved = myAppointments.filter(
+          (doc) => doc.data().status === "Approved"
+        )
+
+        //count pending appointments
+        const pending = myAppointments.filter(
+          (doc)=> doc.data().status=== "Pending"
+        ) 
+
+        setStats({
+          requests: requestSnapshot.size,
+          appointments: myAppointments.length,
+          approved: approved.length,
+          pending: pending.length,
+        })
+      }catch(error){
+        console.error(error)
+      }
+    }
+    fetchStats()
+  }, [])
   return (
     <DonorLayout>
      <h1 className='text-3xl font-bold'>
@@ -14,25 +64,25 @@ function DonorDashboard() {
 
     <div className='mt-8 grid md:grid-cols-2 xl:grid-cols-4 gap-6'>
         <DonorCards
-        title="Blood Group"
-        value="O+"
-        icon={<Heart size={28}/>}
+        title="Available Requests"
+        value={stats.requests}
+        icon={<Clipboard size={28}/>}
         />
 
         <DonorCards
-        title="Total Donations"
-        value="3"
-        icon={<Droplets size={28}/>}
+        title="My Appointments"
+        value={stats.appointments}
+        icon={<Calendar size={28}/>}
         />
         <DonorCards
-        title="Appointments"
-        value="1"
-        icon={<Calendar  size={28}/>}
+        title="Approved"
+        value={stats.approved}
+        icon={<CheckCircle  size={28}/>}
         />
         <DonorCards
-        title="Urdent Reruests"
-        value="5"
-        icon={<Bell size={28}/>}
+        title="Pending"
+        value={stats.pending}
+        icon={<Clock size={28}/>}
         />
     </div>
     </DonorLayout>
