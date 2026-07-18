@@ -5,7 +5,7 @@ import { db, auth } from '@/firebase/FirebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import DonorQuickActions from '@/components/donor/DonorQuickActions'
-
+import EmergencyRequests from '@/components/donor/EmergencyRequests'
 
 function DonorDashboard() {
   const [stats, setStats] = useState({
@@ -91,6 +91,7 @@ function DonorDashboard() {
     </div>
       </main>
       <DonorQuickActions/>
+      <EmergencyRequests/>
       
     </DonorLayout>
   )
