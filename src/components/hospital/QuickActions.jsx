@@ -25,10 +25,13 @@ function QuickActions() {
         </Button>
 
         {/* View Appointments */}
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button 
+        onClick={()=> navigate("/hospital/appointments")}
+         variant="outline" className="flex items-center gap-2">
             <Calendar size={18}/>
             View Appointments
         </Button>
+        
       </div>
     </div>
   )

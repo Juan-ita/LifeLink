@@ -23,12 +23,18 @@ function Hospitaldashboard() {
       try{
         //get all blood requests
         const requestsSnapshot = await getDocs(
-          collection(db, "appointments")
+          collection(db, "bloodRequests")
         );
         //Get all blood inventory
         const inventorySnapshot = await getDocs(
           collection(db, "bloodInventory")
         );
+        const usersSnapshot = await getDocs(
+          collection(db, "users")
+        )
+        const appointmentsSnapshot = await getDocs(
+          collection(db, "appointments")
+        )
         //variable to store total blood units
         let totalUnits = 0;
 
@@ -38,10 +44,14 @@ function Hospitaldashboard() {
           //Add the units from each document
           totalUnits += Number(doc.data().units|| 0);
         })
+        //count only users whose role in donor
+        const donorCount = usersSnapshot.docs.filter(
+          (doc)=>doc.data().role === "donor"
+        ).length
 
         //update the dashboard cards
         setStatus({
-          donors: 0,
+          donors: donorCount,
 
           //Number of vlood requests
           requests: requestsSnapshot.size,
@@ -49,7 +59,7 @@ function Hospitaldashboard() {
           //total blood units available
           units: totalUnits,
 
-          appointments: 0,
+          appointments: appointmentsSnapshot.size,
         })
       } catch(error){
         console.error(error);

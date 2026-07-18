@@ -92,8 +92,9 @@ function InventoryTable() {
                                 {item.status}
                             </span>
 
-                            
-                        <Button variant='outline'
+                           </td> 
+                           <div className='flex justify-between mt-2'>
+                             <Button variant='outline'
                         size='sm'>
                             Edit
                         </Button>
@@ -105,7 +106,9 @@ function InventoryTable() {
                         onClick={() => handleDelete(item.id)}>
                             Delete
                         </Button>
-                        </td>
+                           </div>
+                       
+                        
 
                     </tr>
                 ))
