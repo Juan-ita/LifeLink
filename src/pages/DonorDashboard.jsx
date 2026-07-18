@@ -4,6 +4,8 @@ import DonorCards from '@/components/donor/DonorCards'
 import { db, auth } from '@/firebase/FirebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
+import DonorQuickActions from '@/components/donor/DonorQuickActions'
+
 
 function DonorDashboard() {
   const [stats, setStats] = useState({
@@ -55,12 +57,13 @@ function DonorDashboard() {
   }, [])
   return (
     <DonorLayout>
-     <h1 className='text-3xl font-bold'>
-        Donor Dashboard
-    </h1> 
-    <p className='mt-2 text-gray-500'>
-        Welcome back, Donor
-    </p>
+        <main className='flex-1 p-8'>
+         <h1 className='text-3xl font-bold'>
+            Welcome Back, 
+        </h1> 
+         <p className='mt-2 text-gray-500'>
+         Welcome back, Donor
+         </p>
 
     <div className='mt-8 grid md:grid-cols-2 xl:grid-cols-4 gap-6'>
         <DonorCards
@@ -84,7 +87,11 @@ function DonorDashboard() {
         value={stats.pending}
         icon={<Clock size={28}/>}
         />
+
     </div>
+      </main>
+      <DonorQuickActions/>
+      
     </DonorLayout>
   )
 }
