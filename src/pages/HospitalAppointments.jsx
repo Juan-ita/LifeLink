@@ -4,10 +4,33 @@ import { getDocs, collection } from 'firebase/firestore'
 import { db } from '@/firebase/FirebaseConfig'
 import HospitalLayout from '@/components/hospital/HospitalLayout'
 import { Button } from '@/components/ui/button'
-
+import { doc, updateDoc } from 'firebase/firestore'
 
 function HospitalAppointments() {
   const [appointments, setAppointments] = useState([]);
+
+  async function updateAppointmentStatus(id, status){
+    try{
+      //find the appointment document
+      const appointmentRef = doc(db, "appointments", id)
+
+      //update its status
+      await updateDoc(appointmentRef, {
+        status: status,
+      });
+
+      //update the page without refreshing
+      setAppointments((previousAppointments) => previousAppointments.map((appointment) =>
+        appointment.id === id ?{...appointment, status: status}
+        :appointment
+      
+      ))
+      alert(`Appointment ${status}!`)
+    }catch (error){
+      console.error(error);
+      alert("Failed to update appointment.")
+    }
+  }
 
   useEffect(() => {
     async function fetchAppointments(){
@@ -76,13 +99,16 @@ function HospitalAppointments() {
                       <Button
                       size='sm'
                       className="bg-green-600 hover:bg-green-700"
+                      onClick={() => updateAppointmentStatus(appointment.id, "Approved")}
                       >
                         Approve
                       </Button>
 
                       <Button
                       size='sm'
-                      variant='destructive'>
+                      variant='destructive'
+                      onClick={()=>updateAppointmentStatus(appointment.id, "Rejected")}
+                      >
                         Reject
                       </Button>
                     </div>
