@@ -62,7 +62,7 @@ function DonorDashboard() {
             Welcome Back, 
         </h1> 
          <p className='mt-2 text-gray-500'>
-         Welcome back, Donor
+         Ready to make another life-saving donation?
          </p>
 
     <div className='mt-8 grid md:grid-cols-2 xl:grid-cols-4 gap-6'>
