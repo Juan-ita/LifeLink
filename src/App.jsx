@@ -21,7 +21,7 @@ import HospitalNotifications from './components/hospital/HospitalNotifications'
 
 function App() {
   const location = useLocation()
-  const isHospitalPage = location.pathname.startsWith("/hospital/dashboard")
+  const isHospitalPage = location.pathname.startsWith("/hospital")
   return (
     <>
     {!isHospitalPage && <Navbar/>}

@@ -82,6 +82,11 @@ function BookAppointment() {
             alert("Failed to book appointment.")
         }
 
+        await addDoc(collection(db, "notifications"), {
+            message: `${donor.fullName} booked a donation appointment.`,
+            createdAt: new Date()
+        })
+
     }
   return (
     <DonorLayout>
