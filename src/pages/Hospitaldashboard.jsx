@@ -4,11 +4,12 @@ import { Calendar, Droplets, ClipboardList, Users } from 'lucide-react'
 import QuickActions from '@/components/hospital/QuickActions'
 import RecentRequests from '@/components/hospital/RecentRequests'
 import { useState, useEffect } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '@/firebase/FirebaseConfig'
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
+import { db, auth } from '@/firebase/FirebaseConfig'
 
 function Hospitaldashboard() {
 
+  const [hospitalName, setHospitalName] = useState("");
   // Store dashboard statistics
   const [status, setStatus] = useState ({
     donors: 0,
@@ -49,6 +50,16 @@ function Hospitaldashboard() {
           (doc)=>doc.data().role === "donor"
         ).length
 
+
+       //Read hospital profile
+        const hospitalRef = doc(db, "users", auth.currentUser.uid)
+        const hospitalSnap = await getDoc(hospitalRef);
+
+        if(hospitalSnap.exists()){
+          setHospitalName(hospitalSnap.data().hospitalName)
+        }
+
+
         //update the dashboard cards
         setStatus({
           donors: donorCount,
@@ -74,7 +85,7 @@ function Hospitaldashboard() {
         <Sidebar/>
       <main className='flex-1 p-8'>
         <h1 className='text-3xl font-bold'>Hospital Dashboard</h1>
-        <p className='text-gray-500 mt-2'>Welcome back, Nairobi Hospital</p>
+        <p className='text-gray-500 mt-2'>Welcome back, {hospitalName}</p>
 
         <div className='mt-8 grid md:grid-cols-2 xl:grid-cols-4 gap-6'>
           <DashboardCard 
