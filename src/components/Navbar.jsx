@@ -18,7 +18,7 @@ function Navbar() {
           Home
           </Link>
 
-          <Link to='/reruests' className='font-medium transition hover:text-red-600'
+          <Link to='/requests' className='font-medium transition hover:text-red-600'
           >
           Emergency Requests
           </Link>
@@ -30,13 +30,17 @@ function Navbar() {
         </div>
 
         <div className='flex-items-center gap-3'>
+          <Link to='/login'>
           <Button variant='outline' asChild>
-            <Link to='/login'>Login</Link>
+            Login
           </Button>
+          </Link>
 
-          <Button asChild>
-            <Link to='/register'>Register</Link>
+          <Link to='/hospitalregistration'>
+          <Button >
+            Register as Admin
           </Button>
+          </Link>
         </div>
       </div>
     </nav>
