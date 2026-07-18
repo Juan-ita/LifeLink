@@ -13,6 +13,7 @@ import DonorDashboard from './pages/DonorDashboard'
 import AvailableRequests from './pages/AvailableRequests'
 import BookAppointment from './pages/BookAppointment'
 import HospitalAppointments from './pages/HospitalAppointments'
+import MyAppointments from './components/donor/MyAppointments'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path='/donor/requests' element={<AvailableRequests/>}/>
           <Route path='/donor/book/:id' element={<BookAppointment/>}/>
           <Route path='/hospital/appointments' element={<HospitalAppointments/>}/>
+          <Route path='/donor/appointments' element={<MyAppointments/>}/>
         </Routes>
     
     </>
