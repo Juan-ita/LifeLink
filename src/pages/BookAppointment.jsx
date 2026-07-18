@@ -71,6 +71,9 @@ function BookAppointment() {
                 //Default appointment status
                 status: "Pending",
 
+                //notification has not been opened yet
+                notificationRead: false,
+                
                 //Date created
                 createAt: new Date(),
             });

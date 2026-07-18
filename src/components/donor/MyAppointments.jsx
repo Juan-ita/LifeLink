@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { auth, db } from '@/firebase/FirebaseConfig'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, doc, updateDoc} from 'firebase/firestore'
 import DonorLayout from './DonorLayout'
 
 function MyAppointments() {
@@ -23,6 +23,20 @@ function MyAppointments() {
          .filter(
             (appointment)=> appointment.donorId === auth.currentUser.uid
          );
+
+         //Mark notifications as read
+         for (const appointment of data){
+            if(!appointment.notificationRead){
+                await updateDoc(
+                    doc(db, "appointments", appointment.id),
+                    {
+                        notificationRead: true,
+                    }
+                )
+                //update local object
+                appointment.notificationRead = true;
+            }
+         }
 
          //save appointments
          setAppointments(data)

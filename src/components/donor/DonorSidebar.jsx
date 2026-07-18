@@ -3,10 +3,13 @@ import { LayoutDashboard, Droplets, Calendar, User, LogOut } from 'lucide-react'
 import { db, auth } from '@/firebase/FirebaseConfig'
 import { collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
+import { signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 function DonorSidebar() {
 
   const [notificationCount, setNotificationCount] = useState(0)
+  const navigate = useNavigate()
 
   useEffect (() => {
     async function loadNotifications(){
@@ -20,7 +23,8 @@ function DonorSidebar() {
 
       return(
         data.donorId === auth.currentUser.uid &&
-        data.status !== "Pending"
+        data.status !== "Pending" &&
+        data.notificationRead === false
       )
     })
 
@@ -29,6 +33,29 @@ function DonorSidebar() {
     }
     loadNotifications()
   }, [])
+
+  //logout function
+
+   async function handleLogout(){
+    const confirmLogout = window.confirm(
+      "Are you sure u want to log out?"
+    )
+    if(!confirmLogout){
+      return
+    }
+      try {
+        await signOut(auth)
+        //remove locally stored userdata
+        localStorage.removeItem("user")
+
+        alert("Logged out successfully");
+        navigate("/login")
+      }catch (error){
+        console.error(error);
+        alert("Failed to logout.")
+      }
+    }
+
   return (
     <aside className='w-64 min-h-screen bg-red-700 p-5 text-white'>
       <h2 className="mb-10 text-2xl font-bold">
@@ -73,7 +100,9 @@ function DonorSidebar() {
             Profile
         </Link>
 
-        <button className='flex items-center w-full gap-3 rounded p-3 hover:bg-red-800'>
+        <button 
+        onClick={handleLogout}
+        className='flex items-center w-full gap-3 rounded p-3 hover:bg-red-800'>
             <LogOut/>
             Logout
         </button>

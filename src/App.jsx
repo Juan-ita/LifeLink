@@ -23,9 +23,10 @@ import DonorProfile from './components/donor/DonorProfile'
 function App() {
   const location = useLocation()
   const isHospitalPage = location.pathname.startsWith("/hospital")
+  const isDonorPage = location.pathname.startsWith("/donor")
   return (
     <>
-    {!isHospitalPage && <Navbar/>}
+    {!isHospitalPage && !isDonorPage &&<Navbar/>}
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Register/>}/>

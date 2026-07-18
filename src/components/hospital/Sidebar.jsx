@@ -2,8 +2,32 @@ import React from 'react'
 import { LayoutDashboard, Droplets, ClipboardList, User, Users, LogOut, Calendar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Bell } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { auth } from '@/firebase/FirebaseConfig'
+import { signOut } from 'firebase/auth'
 
 function Sidebar() {
+    const navigate = useNavigate()
+
+  async function handleLogout(){
+      const confirmLogout = window.confirm(
+        "Are you sure u want to log out?"
+      )
+      if(!confirmLogout){
+        return
+      }
+        try {
+          await signOut(auth)
+          //remove locally stored userdata
+          localStorage.removeItem("user")
+  
+          alert("Logged out successfully");
+          navigate("/login")
+        }catch (error){
+          console.error(error);
+          alert("Failed to logout.")
+        }
+      }
   return (
     <aside className='w-64 bg-red-700 text-white min-h-screen p-5 rounded-lg'>
       <h2 className='text-2xl font-bold mb-10'>
@@ -47,7 +71,9 @@ function Sidebar() {
         Profile
         </Link>
 
-        <button className='flex items-center gap-3 p-3 rounded hover:bg-red-800 w-full text-left'>
+        <button 
+        onClick={handleLogout}
+        className='flex items-center gap-3 p-3 rounded hover:bg-red-800 w-full text-left'>
             <LogOut size={20}/>
             logout
         </button>
