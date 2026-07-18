@@ -26,7 +26,7 @@ function Sidebar() {
         Appointments
         </Link>
 
-        <Link to="/hospital/requests" className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>
+        <Link to="/hospital/create-request" className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>
         <ClipboardList size={20}/>
         Request Blood
         </Link>
