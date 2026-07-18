@@ -16,7 +16,7 @@ import HospitalAppointments from './pages/HospitalAppointments'
 import MyAppointments from './components/donor/MyAppointments'
 import HospitalRegister from './pages/HospitalRegister'
 import HospitalProfile from './components/hospital/HospitalProfile'
-
+import HospitalDonors from './components/hospital/HospitalDonors'
 
 function App() {
   const location = useLocation()
@@ -40,6 +40,7 @@ function App() {
           <Route path='/donor/appointments' element={<MyAppointments/>}/>
           <Route path='/hospitalregistration' element={<HospitalRegister/>}/>
           <Route path='/hospital/profile' element={<HospitalProfile/>}/>
+          <Route path='/hospital/donors' element={<HospitalDonors/>}/>
         </Routes>
     
     </>

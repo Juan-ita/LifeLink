@@ -19,7 +19,10 @@ function QuickActions() {
         </Button>
 
         {/* View Doners */}
-        <Button variant="outline" className="flex items-center gap-2"> 
+        <Button
+        onClick={()=> navigate("/hospital/donors")}
+         variant="outline" 
+         className="flex items-center gap-2"> 
             <Users size={18}/>
             View Donors
         </Button>
