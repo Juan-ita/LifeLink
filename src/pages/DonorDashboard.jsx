@@ -2,12 +2,13 @@ import DonorLayout from '@/components/donor/DonorLayout'
 import { Heart, Clipboard, CheckCircle, Clock, Calendar } from 'lucide-react'
 import DonorCards from '@/components/donor/DonorCards'
 import { db, auth } from '@/firebase/FirebaseConfig'
-import { getDocs, collection } from 'firebase/firestore'
+import { getDocs, collection, doc, getDoc } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import DonorQuickActions from '@/components/donor/DonorQuickActions'
 import EmergencyRequests from '@/components/donor/EmergencyRequests'
 
 function DonorDashboard() {
+  const [donor, setDonor] = useState(null)
   const [stats, setStats] = useState({
     requests: 0,
     appointments: 0,
@@ -49,9 +50,17 @@ function DonorDashboard() {
           approved: approved.length,
           pending: pending.length,
         })
+
+         const donorSnap = await getDoc(
+      doc(db, "users", auth.currentUser.uid)
+    )
+    if(donorSnap.exists()){
+      setDonor(donorSnap.data())
+    }
       }catch(error){
         console.error(error)
       }
+      
     }
     fetchStats()
   }, [])
@@ -59,7 +68,7 @@ function DonorDashboard() {
     <DonorLayout>
         <main className='flex-1 p-8'>
          <h1 className='text-3xl font-bold'>
-            Welcome Back, 
+            Welcome Back, {donor?.fullName}
         </h1> 
          <p className='mt-2 text-gray-500'>
          Ready to make another life-saving donation?

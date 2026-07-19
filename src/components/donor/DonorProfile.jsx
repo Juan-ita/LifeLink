@@ -4,6 +4,7 @@ import { auth, db } from '@/firebase/FirebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import DonorLayout from './DonorLayout'
+import { onAuthStateChanged } from 'firebase/auth'
 
 function DonorProfile() {
 
@@ -20,10 +21,15 @@ function DonorProfile() {
             //Get donor data
             const docSnap = await getDoc(docRef)
 
+            console.log(auth.currentUser.uid);
+            console.log(docSnap.data());
+
             //if donor exists
             if(docSnap.exists()){
                 setDonor(docSnap.data())
+                console.log(docSnap.data())
             }
+            
 
         }
         fetchDonor()
