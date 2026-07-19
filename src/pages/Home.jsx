@@ -28,10 +28,6 @@ function Home() {
                        Become a Donor
                     </Link>
                 </Button>
-
-                <Button variant='outline' size='lg'>
-                    Emergency Requests
-                </Button>
             </div>
         </div>
       </section>

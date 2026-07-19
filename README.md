@@ -21,7 +21,8 @@ LifeLink provides a centralized platform where hospitals can create emergency bl
 - Improve coordination between hospitals and blood donors.
 
 ## Features
-- Register page
+- Donor register page
+- Hospital register page
 - Login page
 - Donor Dashboard
 - Book a Screening Appointment
