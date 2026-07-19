@@ -23,6 +23,14 @@ function BookAppointment() {
     // const donor = JSON.parse(localStorage.getItem("user"))
 
     async function handleSubmit(event){
+        console.log("Current user:", auth.currentUser)
+
+        if(!auth.currentUser){
+            alert("No user is logged in.")
+            return;
+        }
+        console.log("UDI:", auth.currentUser.uid)
+
         event.preventDefault();
 
         //check if the data is empty
@@ -52,6 +60,8 @@ function BookAppointment() {
 
         const donorRef = doc(db, "user", auth.currentUser.uid)
         const donorSnap = await getDoc(donorRef);
+
+        console.log("Donor exists:", donorSnap.exists())
 
         if(!donorSnap.exists()){
             alert("Donor profile not found.")
