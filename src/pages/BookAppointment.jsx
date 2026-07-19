@@ -20,7 +20,7 @@ function BookAppointment() {
     //store the appointment time
     const [time, setTime] = useState("")
     
-    const donor = JSON.parse(localStorage.getItem("user"))
+    // const donor = JSON.parse(localStorage.getItem("user"))
 
     async function handleSubmit(event){
         event.preventDefault();
@@ -46,6 +46,15 @@ function BookAppointment() {
         //store blood data
         const request = requestSnap.data()
 
+        const donorRef = doc(db, "user", auth.currentUser.uid)
+        const donorSnap = await getDoc(donorRef);
+
+        if(!donorSnap.exists()){
+            alert("Donor profile not found.")
+            return;
+        }
+        const donor = donorSnap.data()
+        
         console.log(donor);
         console.log(request)
             //Save the appointment in firebase
