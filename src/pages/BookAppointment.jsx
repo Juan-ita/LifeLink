@@ -46,6 +46,10 @@ function BookAppointment() {
         //store blood data
         const request = requestSnap.data()
 
+        console.log("Logged in user:",
+            auth.currentUser)
+        console.log("Current UID:", auth.currentUser)    
+
         const donorRef = doc(db, "user", auth.currentUser.uid)
         const donorSnap = await getDoc(donorRef);
 
@@ -54,7 +58,7 @@ function BookAppointment() {
             return;
         }
         const donor = donorSnap.data()
-        
+
         console.log(donor);
         console.log(request)
             //Save the appointment in firebase
