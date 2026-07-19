@@ -82,7 +82,7 @@ function BookAppointment() {
             navigate("/donor/dashboard")
         } catch(error){
             console.error(error);
-            alert("Failed to book appointment.")
+            alert(error.message)
         }
 
         await addDoc(collection(db, "notifications"), {
