@@ -133,7 +133,7 @@ if(deadline.trim() ===""){
                     <Input 
                     value={urgency}
                     onChange={(event) => setUrgency(event.target.value)}
-                    placeholder="Urgent"
+                    placeholder="Low"
                     />
                 </div>
                 <div>

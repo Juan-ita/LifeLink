@@ -160,7 +160,7 @@ function Register() {
             className="mt-2"
              id="password"
              type="password"
-             placeholder="Creat a Password"
+             placeholder="Create a Password"
              value={password}
              onChange={(event) => setPassword(event.target.value)}/>
           </div>

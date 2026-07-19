@@ -102,7 +102,7 @@ function About() {
       <section className="bg-red-600 px-8 py-20 text-center text-white">
 
         <h2 className="text-4xl font-bold">
-          Every Donation Saves a Life ❤️
+          Every Donation Saves a Life 
         </h2>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg">

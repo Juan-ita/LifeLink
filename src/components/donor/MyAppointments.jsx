@@ -44,6 +44,31 @@ function MyAppointments() {
         fetchAppointments()
          
     }, []);
+
+     async function cancelAppointment(id){
+            const confirmCancel = window.confirm(
+                "Are you sure you want to cancel this appointment?"
+            )
+            if(!confirmCancel)return;
+
+            try{
+                await updateDoc(doc(db, "appointments", id), {
+                    status: "Cancelled",
+                })
+
+                //Update the page immediately
+                setAppointments((previousAppointments) => 
+                previousAppointments.map((appointment) => appointment.id === id
+               ?{...appointment, status: "Cancelled"}
+                 : appointment)
+                )
+                
+                 alert("Appointment cancelled successfully.")
+            } catch (error){
+                console.error(error);
+                alert ("Failed to cancel appointment.")
+            }
+        }
   return (
     <DonorLayout>
       <h1 className='text-3xl font-bold'>
@@ -100,8 +125,17 @@ function MyAppointments() {
                         ? "Your appointment has been approved. Please arrive 15 minutes early."
                         :appointment.status === "Rejected"
                         ? "Unfortunately your appointment was not approved. Thank you for volunteering."
-                        :"Your appointment is awaiting hospital approval."
-                        }
+                        :"Your appointment is awaiting hospital approval." 
+                         }
+                        {appointment.status === "Pending" && (
+                            <button 
+                            onClick={() => cancelAppointment(appointment.id)}
+                            className='mt-4 rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700'
+                            >
+                                Cancel Appointment
+                            </button>
+                        )}
+                      
                     </p>
                 </div>
             ))
