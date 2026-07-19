@@ -95,7 +95,8 @@ function HospitalAppointments() {
                     {appointment.status}
                   </span>
 
-                  <div className='flex gap-3'>
+                  {appointment.status === "Pending" && (
+                     <div className='flex gap-3'>
                       <Button
                       size='sm'
                       className="bg-green-600 hover:bg-green-700"
@@ -112,6 +113,9 @@ function HospitalAppointments() {
                         Reject
                       </Button>
                     </div>
+                  )}
+
+                 
             </div>
           ))
         )}
