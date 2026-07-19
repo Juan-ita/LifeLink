@@ -19,6 +19,7 @@ import HospitalProfile from './components/hospital/HospitalProfile'
 import HospitalDonors from './components/hospital/HospitalDonors'
 import HospitalNotifications from './components/hospital/HospitalNotifications'
 import DonorProfile from './components/donor/DonorProfile'
+import About from './components/About'
 
 function App() {
   const location = useLocation()
@@ -31,6 +32,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/about' element={<About/>}/>
           <Route path='/hospital/dashboard' element={<Hospitaldashboard/>}/>
           <Route path='/hospital/create-request' element={<CreateRequest/>}/>
           <Route path='/hospital/request/:id' element={<RequestDetails/>}/>
