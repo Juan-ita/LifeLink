@@ -18,11 +18,6 @@ function Navbar() {
           Home
           </Link>
 
-          <Link to='/requests' className='font-medium transition hover:text-red-600'
-          >
-          Emergency Requests
-          </Link>
-
           <Link to='/about' className='font-medium transition hover:text-red-600'
           >
           About
