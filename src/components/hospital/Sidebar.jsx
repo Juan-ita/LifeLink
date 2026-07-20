@@ -3,11 +3,33 @@ import { LayoutDashboard, Droplets, ClipboardList, User, Users, LogOut, Calendar
 import { Link } from 'react-router-dom'
 import { Bell } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '@/firebase/FirebaseConfig'
+import { auth, db } from '@/firebase/FirebaseConfig'
 import { signOut } from 'firebase/auth'
+import { collection, getDocs } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 
 function Sidebar() {
     const navigate = useNavigate()
+     const [notificationCount, setNotificationCount] = useState(0)
+
+  useEffect(() => {
+  async function loadNotifications() {
+    const querySnapshot = await getDocs(
+      collection(db, "appointments")
+    );
+
+    // Count unread appointments
+    const unreadAppointments = querySnapshot.docs.filter((doc) => {
+      const data = doc.data();
+
+      return data.notificationRead === false;
+    });
+
+    setNotificationCount(unreadAppointments.length);
+  }
+
+  loadNotifications();
+}, []);
 
   async function handleLogout(){
       const confirmLogout = window.confirm(
@@ -49,6 +71,13 @@ function Sidebar() {
         className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>
           <Calendar size={20}/>
         Appointments
+
+        {/* Notification badge */}
+           {notificationCount > 0 && (
+            <span className='rounded-full bg-white px-2 py-1 text-xs font-bold text-red-600'>
+              {notificationCount}
+            </span>
+           )}
         </Link>
 
         <Link to="/hospital/create-request" className='flex items-center gap-3 p-3 rounded hover:bg-red-800'>

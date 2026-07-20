@@ -46,6 +46,19 @@ function HospitalAppointments() {
         ...doc.data(),
       }));
 
+      for (const appointment of data) {
+  if (!appointment.notificationRead) {
+    await updateDoc(
+      doc(db, "appointments", appointment.id),
+      {
+        notificationRead: true,
+      }
+    );
+
+    appointment.notificationRead = true;
+  }
+}
+
       setAppointments(data);
     }
     fetchAppointments()
