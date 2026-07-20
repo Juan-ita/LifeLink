@@ -56,9 +56,9 @@ function BookAppointment() {
 
         console.log("Logged in user:",
             auth.currentUser)
-        console.log("Current UID:", auth.currentUser)    
+        console.log("Current UID:", auth.currentUser.uid)    
 
-        const donorRef = doc(db, "user", auth.currentUser.uid)
+        const donorRef = doc(db, "users", auth.currentUser.uid)
         const donorSnap = await getDoc(donorRef);
 
         console.log("Donor exists:", donorSnap.exists())
@@ -103,16 +103,18 @@ function BookAppointment() {
             //Let the donor know it worked
             alert("Appointment booked successfully!")
             navigate("/donor/dashboard")
+
+            await addDoc(collection(db, "notifications"), {
+            message: `${donor.fullName} booked a donation appointment.`,
+            createdAt: new Date()
+        })
+
         } catch(error){
             console.error(error);
             alert(error.message)
         }
 
-        await addDoc(collection(db, "notifications"), {
-            message: `${donor.fullName} booked a donation appointment.`,
-            createdAt: new Date()
-        })
-
+        
     }
   return (
     <DonorLayout>
