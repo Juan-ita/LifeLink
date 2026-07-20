@@ -45,6 +45,8 @@ function Login() {
 
             //Get the logged-in user
             const user = userCredential.user;
+            console.log("Logged in UID:", user.uid)
+            console.log("Logged in email:", user.email)
 
             //Read the user's information from firebase
             const userRef = doc(db, "users", user.uid)
